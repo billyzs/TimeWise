@@ -1,0 +1,26 @@
+wandb_init.project="timewise"
+wandb_init.mode="online"
+wandb_init.name="humanoid_ppo_trial"
+
+training_main.env_name="humanoid"
+training_main.backend="generalized"
+training_main.experiment_name="humanoid_ppo_trial"
+training_main.log_store_dir="./log"
+training_main.train_config={
+    "num_timesteps":50000000,
+    "num_evals":10,
+    "reward_scaling":0.1,
+    "episode_length":1000,
+    "normalize_observations":True,
+    "action_repeat":1,
+    "unroll_length":10,
+    "num_minibatches":32,
+    "num_updates_per_batch":8,
+    "discounting":0.97,
+    "learning_rate":3e-4,
+    "entropy_cost":1e-3,
+    "num_envs":2048,
+    "batch_size":1024,
+    "seed": 0xdeadbeef,
+}
+
