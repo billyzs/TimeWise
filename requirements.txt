@@ -1,1 +1,4 @@
 jax[cpu]==0.4.8
+wandb
+brax
+gin-config
