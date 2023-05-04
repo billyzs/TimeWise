@@ -26,14 +26,17 @@ from brax.training.agents.apg import train as apg
 import wandb
 
 
-logger = logging.getLogger("training")
 wandb_init = gin.external_configurable(wandb.init, name="wandb_init")
 
 
 def progress(num_steps, metrics):
     logging.info(f"{num_steps=}")
     logging.info(f"{metrics=}")
-    wandb.log(metrics, step=num_steps)
+    try:
+        metrics_cpu = {k:float(v) for v in metrics}
+        wandb.log(metrics_cpu, step=num_steps)
+    except Exception as e:
+        logging.exception(e)
 
 
 @gin.configurable
@@ -44,7 +47,7 @@ def training_main(
         log_store_dir: str,
         train_config: dict,
 ):
-    exp_dir = f"{log_store_dir}/{experiment_name}/{env_name}"
+    exp_dir = f"{log_store_dir}/{experiment_name}/{env_name}/{backend}"
     Path(exp_dir).mkdir(parents=True, exist_ok=True)
 
     seed = train_config.get("seed")
@@ -60,8 +63,10 @@ def training_main(
         environment=env,
         progress_fn=progress,
     )
-    model.save_params(f"{exp_dir}/params.pickle", params)
-    wandb.save(exp_dir)
+    params_path = "{exp_dir}/params.pickle"
+    model.save_params(params_path, params)
+    wandb.save(params_path)
+    wandb.save("*.log", exp_dir)
     return env_name, backend, make_inference_fn, params
 
 
