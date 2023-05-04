@@ -96,8 +96,8 @@ def eval_main(
             rollout.append(state.pipeline_state)
             done = state.done.any() or rollout_len > 2000
         logging.info(f"{rollout_idx=} {len(rollout)=}")
-        # TODO bzs save render to json
-        wandb.Html(html.render(env.sys.replace(dt=env.dt), rollout))
+        render = wandb.Html(html.render(env.sys.replace(dt=env.dt), rollout))
+        wandb.log({f"rollout_seed_{rollout_idx}": render})
 
 
 if __name__ == "__main__":
