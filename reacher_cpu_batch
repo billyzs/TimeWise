@@ -1,9 +1,9 @@
 #!/bin/bash
-set -Eeuxo pipefail
+
 #SBATCH --job-name=reacher_ppo_trial_cpu
 #SBATCH -n 1
 #SBATCH --cpus-per-task=32
-#SBATCH --time=8:00:00
+#SBATCH --time=4:00:00
 #SBATCH --mem-per-cpu=2048
 #SBATCH --output="./log/reacher_ppo_cpu/reacher/spring/stdout.log"
 #SBATCH --error="./log/reacher_ppo_cpu/reacher/spring/stderr.log"
