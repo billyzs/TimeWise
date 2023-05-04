@@ -1,0 +1,27 @@
+wandb_init.project="timewise"
+wandb_init.mode="online"
+wandb_init.name="reacher_ppo_trial_cpu"
+
+training_main.env_name="reacher"
+training_main.backend="spring"
+training_main.experiment_name="reacher_ppo_trial_cpu"
+training_main.log_store_dir="./log"
+training_main.train_config={
+    "num_timesteps":50000000,
+    "num_evals":20,
+    "reward_scaling":5,
+    "episode_length":1000,
+    "normalize_observations":True,
+    "action_repeat":4,
+    "unroll_length":50,
+    "num_minibatches":32,
+    "num_updates_per_batch":8,
+    "discounting":0.95,
+    "learning_rate":3e-4,
+    "entropy_cost":1e-3,
+    "num_envs":2048,
+    "batch_size":256,
+    "max_devices_per_host":8,
+    "seed": 0xdeadbeef,
+}
+
