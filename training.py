@@ -111,6 +111,7 @@ if __name__ == "__main__":
         print_includes_and_imports=True,
     )
     wandb_init(
+        config=gin.get_bindings(training_main),
         notes=gin.config_str(),
         settings=wandb.Settings(start_mode="fork"),
     )
