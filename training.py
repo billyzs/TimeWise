@@ -33,7 +33,7 @@ def progress(num_steps, metrics):
     logging.info(f"{num_steps=}")
     logging.info(f"{metrics=}")
     try:
-        metrics_cpu = {k:float(v) for v in metrics}
+        metrics_cpu = {k:float(v) for k,v in metrics.items()}
         wandb.log(metrics_cpu, step=num_steps)
     except Exception as e:
         logging.exception(e)
@@ -63,10 +63,10 @@ def training_main(
         environment=env,
         progress_fn=progress,
     )
-    params_path = "{exp_dir}/params.pickle"
+    params_path = f"{exp_dir}/params.pickle"
     model.save_params(params_path, params)
     wandb.save(params_path)
-    wandb.save("*.log", exp_dir)
+    wandb.save(f"{exp_dir}/*.log")
     return env_name, backend, make_inference_fn, params
 
 
@@ -88,11 +88,13 @@ def eval_main(
         state = jit_env_reset(rng=rng)
         act_rng, rng = jax.random.split(rng)
         done = False
+        rollout_len = 0
         while not done:
+            rollout_len += 1
             act, _ = jit_inference_fn(state.obs, act_rng)
             state = jit_env_step(state, act)
             rollout.append(state.pipeline_state)
-            done = state.done.any()
+            done = state.done.any() or rollout_len > 2000
         logging.info(f"{rollout_idx=} {len(rollout)=}")
         # TODO bzs save render to json
         wandb.Html(html.render(env.sys.replace(dt=env.dt), rollout))
