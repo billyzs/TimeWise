@@ -19,5 +19,5 @@ export JAX_PLATFORMS='cuda'
 # export XLA_FLAGS='--xla_force_host_platform_device_count=32'  # should be the same as -n above
 
 # run experiment
-./.tw/bin/python ./training.py ./reacher_gpu.gin
+./.tw/bin/python ./script/training.py ./config/reacher_gpu.gin
 
