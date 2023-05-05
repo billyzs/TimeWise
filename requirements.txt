@@ -1,4 +1,4 @@
-jax[cpu]==0.4.8
 wandb
-brax
+-e git+https://github.com/google/brax.git@v0.9.0#egg=brax
 gin-config
+jax[cpu]==0.4.8

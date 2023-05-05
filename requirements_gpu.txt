@@ -1,0 +1,6 @@
+wheel
+wandb
+-e git+https://github.com/google/brax.git@v0.9.0#egg=brax
+gin-config
+jaxlib @ https://storage.googleapis.com/jax-releases/cuda11/jaxlib-0.4.7+cuda11.cudnn82-cp310-cp310-manylinux2014_x86_64.whl
+jax==0.4.7
